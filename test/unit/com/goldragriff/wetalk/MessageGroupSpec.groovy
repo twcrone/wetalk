@@ -1,14 +1,13 @@
 package com.goldragriff.wetalk
 
-import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(Group)
-class GroupSpec extends Specification {
+@TestFor(MessageGroup)
+class MessageGroupSpec extends Specification {
 
     def setup() {
     }
@@ -18,7 +17,7 @@ class GroupSpec extends Specification {
 
     void "group has many members"() {
         setup:
-        def group = new Group(name: 'Dorks R Us')
+        def group = new MessageGroup(name: 'Dorks R Us')
         def member = new User(name: 'Todd', shortName: 'Todd', phoneNumber: '123')
         group.members = [member]
 

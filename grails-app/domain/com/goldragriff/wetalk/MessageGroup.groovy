@@ -1,6 +1,6 @@
 package com.goldragriff.wetalk
 
-class Group {
+class MessageGroup {
 
     String name
 
