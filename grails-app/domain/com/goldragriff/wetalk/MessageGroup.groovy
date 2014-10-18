@@ -7,5 +7,6 @@ class MessageGroup {
     static hasMany = [members: User]
 
     static constraints = {
+        members nullable: true
     }
 }
