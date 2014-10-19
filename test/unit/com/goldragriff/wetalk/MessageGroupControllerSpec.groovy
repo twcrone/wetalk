@@ -12,6 +12,7 @@ class MessageGroupControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
         params["name"] = 'Dorks R Us'
+        params['phoneNumber'] = '+16061234567'
     }
 
     void "Test the index action returns the correct model"() {

@@ -16,7 +16,7 @@ class MessageService {
         def params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Body", msg.body));
         params.add(new BasicNameValuePair("To", msg.to.members[0].phoneNumber));
-        params.add(new BasicNameValuePair("From", msg.from.phoneNumber));
+        params.add(new BasicNameValuePair("From", msg.to.phoneNumber));
 
         def messageFactory = client.getAccount().getMessageFactory();
         def message = messageFactory.create(params);

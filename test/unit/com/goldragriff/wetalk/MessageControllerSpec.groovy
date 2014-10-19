@@ -12,7 +12,7 @@ class MessageControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
         def user = new User(name: 'Todd', shortName: 'Todd', phoneNumber: '859').save(failOnError: true)
-        def group = new MessageGroup(name: 'Dorks', members: [user]).save(failOnError: true)
+        def group = new MessageGroup(name: 'Dorks', members: [user], phoneNumber: '859').save(failOnError: true)
         params['text'] = 'Hey'
         params['from.id'] = user.id
         params['to.id'] = group.id
