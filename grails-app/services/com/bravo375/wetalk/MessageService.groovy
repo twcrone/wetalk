@@ -8,12 +8,11 @@ import org.apache.http.message.BasicNameValuePair;
 @Transactional
 class MessageService {
 
+    def acountSid
+    def authToken
+
     def send(msg) {
-        final ACCOUNT_SID = 'ACbee9cae6cca2b82845e057571236378e'
-        final AUTH_TOKEN = '811da513032f1f8866e9bcb127b167cd'
-
-        def client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
-
+        def client = new TwilioRestClient(acountSid, authToken)
         def params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Body", "Hey!"));
         params.add(new BasicNameValuePair("To", "+15005550006"));

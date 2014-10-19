@@ -13,6 +13,9 @@ import spock.lang.Specification
 class MessageServiceSpec extends Specification {
 
     def setup() {
+        service.acountSid = 'ACbee9cae6cca2b82845e057571236378e'
+        service.authToken = '811da513032f1f8866e9bcb127b167cd'
+
     }
 
     def cleanup() {
