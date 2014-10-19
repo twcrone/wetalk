@@ -15,8 +15,8 @@ class MessageService {
         def client = new TwilioRestClient(acountSid, authToken)
         def params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Body", msg.body));
-        params.add(new BasicNameValuePair("To", "+15005550006"));
-        params.add(new BasicNameValuePair("From", "+15005550006"));
+        params.add(new BasicNameValuePair("To", msg.to.members[0].phoneNumber));
+        params.add(new BasicNameValuePair("From", msg.from.phoneNumber));
 
         def messageFactory = client.getAccount().getMessageFactory();
         def message = messageFactory.create(params);
