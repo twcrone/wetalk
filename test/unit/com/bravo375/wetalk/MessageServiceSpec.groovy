@@ -28,6 +28,6 @@ class MessageServiceSpec extends Specification {
         def sent = service.send(message)
 
         then:
-        sent
+        sent.sid
     }
 }
