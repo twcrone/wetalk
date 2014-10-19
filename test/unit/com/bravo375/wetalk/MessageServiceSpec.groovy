@@ -32,6 +32,6 @@ class MessageServiceSpec extends Specification {
         def sent = service.send(message)
 
         then:
-        sent.sid
+        sent.sendCount == group.members.size()
     }
 }

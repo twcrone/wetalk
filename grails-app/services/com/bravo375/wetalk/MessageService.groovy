@@ -13,23 +13,30 @@ class MessageService {
 
     def send(msg) {
         def group = msg.to
-        msg.sid = internalSend(msg.body, group.members, group.phoneNumber)
+        msg.sendCount = sendMessageToMembersInGroup(msg.body, group.members, group.phoneNumber)
         msg
     }
 
-    def internalSend(body, members, groupPhoneNumber) {
+    def sendMessageToMembersInGroup(body, members, groupPhoneNumber) {
         def client = new TwilioRestClient(acountSid, authToken)
-
+        int count = 0
         members.each { member ->
-            def params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair("Body", body));
-            params.add(new BasicNameValuePair("To", member.phoneNumber));
-            params.add(new BasicNameValuePair("From", groupPhoneNumber));
-
-            def messageFactory = client.getAccount().getMessageFactory();
-            def message = messageFactory.create(params);
-            println message.sid
+            if(sendMessageToMemberInGroup(client, body, member, groupPhoneNumber)) {
+                count++
+            }
         }
-        'XXX'
+        count
     }
+
+    def sendMessageToMemberInGroup(client, body, member, groupPhoneNumber) {
+        def params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("Body", body));
+        params.add(new BasicNameValuePair("To", member.phoneNumber));
+        params.add(new BasicNameValuePair("From", groupPhoneNumber));
+
+        def messageFactory = client.getAccount().getMessageFactory();
+        def message = messageFactory.create(params);
+        message.sid
+    }
+
 }

@@ -6,6 +6,7 @@ class Message {
     String body
     String sid
     Date createdDate = new Date()
+    int sendCount
 
     static constraints = {
     }
