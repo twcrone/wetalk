@@ -28,7 +28,7 @@
 					
 						<th><g:message code="message.from.label" default="From" /></th>
 					
-						<g:sortableColumn property="text" title="${message(code: 'message.text.label', default: 'Text')}" />
+						<g:sortableColumn property="text" title="${message(code: 'message.body.label', default: 'Body')}" />
 					
 						<th><g:message code="message.to.label" default="To" /></th>
 					

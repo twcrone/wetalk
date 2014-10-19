@@ -14,7 +14,7 @@ class MessageService {
     def send(msg) {
         def client = new TwilioRestClient(acountSid, authToken)
         def params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("Body", "Hey!"));
+        params.add(new BasicNameValuePair("Body", msg.body));
         params.add(new BasicNameValuePair("To", "+15005550006"));
         params.add(new BasicNameValuePair("From", "+15005550006"));
 

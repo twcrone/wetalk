@@ -25,7 +25,7 @@ class MessageServiceSpec extends Specification {
         setup:
         def user = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006')
         def group = new MessageGroup(name: 'Test')
-        def message = new Message(text: 'Hi', to: group, from: user, createdDate: new Date())
+        def message = new Message(body: 'Hi', to: group, from: user, createdDate: new Date())
 
         when:
         def sent = service.send(message)

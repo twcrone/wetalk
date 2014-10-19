@@ -19,7 +19,7 @@ class MessageSpec extends Specification {
     void "message has fields"() {
         when:
         def message = new Message(from: new User(name: 'Todd'), to: new MessageGroup(name: 'Dorks'),
-                text: 'Hello', createdDate: new Date())
+                body: 'Hello', createdDate: new Date())
 
         then:
         message
