@@ -13,6 +13,9 @@ class MessageService {
 
     def send(msg) {
         def group = msg.to
+        if(group.members.contains(msg.from) == false) {
+            throw new RuntimeException("${msg.from.name} is not in ${msg.to.name}")
+        }
         def recipients = group.members - msg.from
         msg.sendCount = sendMessageToMembersInGroup(msg.body, recipients, group.phoneNumber)
         msg
