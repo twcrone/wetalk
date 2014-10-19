@@ -21,17 +21,18 @@ class MessageServiceSpec extends Specification {
     def cleanup() {
     }
 
-    void "send a message"() {
+    void "send a message to a group should send to all members minus sender"() {
         setup:
-        def user = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006')
-        def user2 = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006')
-        def group = new MessageGroup(name: 'Test', members: [user2], phoneNumber: '+15005550006')
-        def message = new Message(body: 'Hi', to: group, from: user, createdDate: new Date())
+        def sender = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006')
+        def user1 = new User(name: 'User1', shortName: 'user1', phoneNumber: '+15005550006')
+        def user2 = new User(name: 'User2', shortName: 'user2', phoneNumber: '+15005550006')
+        def group = new MessageGroup(name: 'Test', members: [user1, sender, user2], phoneNumber: '+15005550006')
+        def message = new Message(body: 'Hi', to: group, from: sender, createdDate: new Date())
 
         when:
         def sent = service.send(message)
 
         then:
-        sent.sendCount == group.members.size()
+        sent.sendCount == group.members.size() - 1
     }
 }

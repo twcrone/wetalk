@@ -13,7 +13,8 @@ class MessageService {
 
     def send(msg) {
         def group = msg.to
-        msg.sendCount = sendMessageToMembersInGroup(msg.body, group.members, group.phoneNumber)
+        def recipients = group.members - msg.from
+        msg.sendCount = sendMessageToMembersInGroup(msg.body, recipients, group.phoneNumber)
         msg
     }
 
