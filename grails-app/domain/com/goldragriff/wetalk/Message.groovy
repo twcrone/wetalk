@@ -4,7 +4,7 @@ class Message {
     User from
     MessageGroup to
     String text
-    Date createdDate
+    Date createdDate = new Date()
 
     static constraints = {
     }
