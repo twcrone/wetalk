@@ -1,5 +1,6 @@
 package com.bravo375.wetalk
 
+import com.goldragriff.wetalk.Message
 import com.goldragriff.wetalk.MessageGroup
 import com.goldragriff.wetalk.User
 import grails.transaction.Transactional
@@ -13,17 +14,19 @@ class MessageService {
     def acountSid
     def authToken
 
-    def send(text, groupPhoneNumber, senderPhoneNumber) {
+    Message send(String text, String groupPhoneNumber, String senderPhoneNumber) {
         def group = MessageGroup.findByPhoneNumber(groupPhoneNumber)
         def sender = User.findByPhoneNumber(senderPhoneNumber)
         if(!group.members.contains(sender)) {
-            throw new RuntimeException("${sender.name} is not in ${group.name}")
+            throw new IllegalArgumentException("${sender.name} is not in ${group.name}")
         }
         def recipients = group.members - sender
-        sendMessageToMembersInGroup(text, recipients, group.phoneNumber)
+        def sendCount = sendMessageToMembersInGroup(text, recipients, group.phoneNumber)
+        def message = new Message(body: text, from: sender, to: group, sendCount: sendCount)
+        message.save(failOnError: true)
     }
 
-    def sendMessageToMembersInGroup(text, members, groupPhoneNumber) {
+    private int sendMessageToMembersInGroup(text, members, groupPhoneNumber) {
         def client = new TwilioRestClient(acountSid, authToken)
         int count = 0
         members.each { member ->
@@ -34,7 +37,7 @@ class MessageService {
         count
     }
 
-    def sendMessageToMemberInGroup(client, body, member, groupPhoneNumber) {
+    private static String sendMessageToMemberInGroup(client, body, member, groupPhoneNumber) {
         def params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Body", body));
         params.add(new BasicNameValuePair("To", member.phoneNumber));
@@ -44,5 +47,4 @@ class MessageService {
         def message = messageFactory.create(params);
         message.sid
     }
-
 }

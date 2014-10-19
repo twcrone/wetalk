@@ -11,7 +11,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
 @TestFor(MessageService)
-@Mock([User, MessageGroup])
+@Mock([User, Message, MessageGroup])
 class MessageServiceSpec extends Specification {
 
     def setup() {
@@ -30,28 +30,26 @@ class MessageServiceSpec extends Specification {
         def user2 = new User(name: 'User2', shortName: 'user2', phoneNumber: '+15005550006')
         def group = new MessageGroup(name: 'Test', members: [user1, sender, user2],
                 phoneNumber: '+15005550006').save()
-        //def message = new Message(body: 'Hi', to: group, from: sender, createdDate: new Date())
         def text = "Hello"
 
         when:
-        def count = service.send(text, group.phoneNumber, sender.phoneNumber)
+        def msg = service.send(text, group.phoneNumber, sender.phoneNumber)
 
         then:
-        count == group.members.size() - 1
+        msg.sendCount == group.members.size() - 1
     }
 
     void "send a message to a group should fail if sender is not a member"() {
         setup:
-        def sender = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006')
+        def sender = new User(name: 'Twilio', shortName: 'twilio', phoneNumber: '+15005550006').save()
         def user1 = new User(name: 'User1', shortName: 'user1', phoneNumber: '+15005550006')
         def user2 = new User(name: 'User2', shortName: 'user2', phoneNumber: '+15005550006')
-        def group = new MessageGroup(name: 'Test', members: [user1, user2], phoneNumber: '+15005550006')
-        def message = new Message(body: 'Hi', to: group, from: sender, createdDate: new Date())
+        def group = new MessageGroup(name: 'Test', members: [user1, user2], phoneNumber: '+15005550006').save()
 
         when:
-        service.send(message)
+        service.send('Hello', group.phoneNumber, sender.phoneNumber)
 
         then:
-        thrown(RuntimeException)
+        thrown(IllegalArgumentException)
     }
 }
