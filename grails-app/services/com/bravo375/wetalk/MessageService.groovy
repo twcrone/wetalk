@@ -22,7 +22,8 @@ class MessageService {
         }
         def recipients = group.members - sender
         def sendCount = sendMessageToMembersInGroup(text, recipients, group.phoneNumber)
-        def message = new Message(body: text, from: sender, to: group, sendCount: sendCount)
+        def body = prefixMessageWithSenderShortName(text, sender.shortName)
+        def message = new Message(body: body, from: sender, to: group, sendCount: sendCount)
         message.save(failOnError: true)
     }
 
@@ -46,5 +47,9 @@ class MessageService {
         def messageFactory = client.getAccount().getMessageFactory();
         def message = messageFactory.create(params);
         message.sid
+    }
+
+    private static String prefixMessageWithSenderShortName(message, shortName) {
+        "$shortName - $message"
     }
 }

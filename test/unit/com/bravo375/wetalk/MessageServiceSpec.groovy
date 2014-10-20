@@ -52,4 +52,17 @@ class MessageServiceSpec extends Specification {
         then:
         thrown(IllegalArgumentException)
     }
+
+    void "send a message to a user should be prefixed with sender short name"() {
+        setup:
+        def sender = 'Todd'
+        def text = 'Hello'
+
+        when:
+        def message = service.prefixMessageWithSenderShortName(text, sender)
+
+        then:
+        message == 'Todd - Hello'
+    }
+
 }
